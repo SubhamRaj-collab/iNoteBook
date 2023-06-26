@@ -17,7 +17,8 @@ const fetchUser = (req, res, next) => {
         next();
         
     } catch (error) {
-        res.status(401).send({error: "Please authenticate using a valid token."});
+        //If token is wrong, this will be returned.
+        res.status(401).send({error: "Please authenticate using a validdd token."});
     }
 
 }
