@@ -3,148 +3,41 @@ import { useState } from "react";
 
 const NoteState = (props) => {
 
-    const notesInitial = [
-        {
-          "_id": "64992f2c458fe13ec57953ae",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "My Title",
-          "description": "Please! Wake up early.",
-          "tag": "personal",
-          "date": "2023-06-26T06:24:44.670Z",
-          "__v": 0
-        },
-        {
-          "_id": "64992f2f458fe13ec57953b0",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "My Title",
-          "description": "Please! Wake up early.",
-          "tag": "personal",
-          "date": "2023-06-26T06:24:47.292Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c986",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9861",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9862",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9863",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9864",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9865",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9866",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9867",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9868",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c9869",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c98610",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c98611",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        },
-        {
-          "_id": "6499497d30d27fe02767c98612",
-          "user": "649842cb25b8143891cf7cb3",
-          "title": "Cool guy",
-          "description": "This thing is very cool.",
-          "tag": "coolby",
-          "date": "2023-06-26T08:17:01.899Z",
-          "__v": 0
-        }
-    ]
+    const host = "http://localhost:5000";
+
+    const notesInitial = []
 
     const [notes, setNotes] = useState(notesInitial)
 
+    //Get all Notes
+    const getNotes = async () => {
+      const response = await fetch(`${host}/api/notes/fetchAllNotes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5ODQyY2IyNWI4MTQzODkxY2Y3Y2IzIn0sImlhdCI6MTY4Nzc0Nzk1MX0.lMMl-dLYIMrgcTqgWVHj4HsGhhOq3y95io5U3ZU0c_4"
+        }
+      });
+      
+      const json = await response.json();
+      console.log(json) 
+      setNotes(json)
+
+    }
+
     //Add a note
-    const addNote = (title, description, tag) => {
+    const addNote = async (title, description, tag) => {
+      // const response = await fetch(`${host}/api/notes/addNote`, {
+      //   method: "POST",
+      //   mode: "cors",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5ODQyY2IyNWI4MTQzODkxY2Y3Y2IzIn0sImlhdCI6MTY4Nzc0Nzk1MX0.lMMl-dLYIMrgcTqgWVHj4HsGhhOq3y95io5U3ZU0c_4"
+      //   },
+      //   body: JSON.stringify({title, description, tag})
+      // });
+      
+      // const json = response.json();
       //TODO: Api Call
       console.log("Adding a new note.")
       const note = {
@@ -161,17 +54,41 @@ const NoteState = (props) => {
     }
 
     //Delete a note
-    const deleteNote = () => {
-      
+    const deleteNote = (id) => {
+      console.log("Deleting the note with id: "+id);
+      const newNotes = notes.filter((note) => { return note._id !== id })
+      setNotes(newNotes);
     }
 
     //Edit a note
-    const editNote = () => {
+    const editNote = async (id, title, description, tag) => {
+
+      const response = await fetch(`${host}/api/notes/updateNote/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ5ODQyY2IyNWI4MTQzODkxY2Y3Y2IzIn0sImlhdCI6MTY4Nzc0Nzk1MX0.lMMl-dLYIMrgcTqgWVHj4HsGhhOq3y95io5U3ZU0c_4"
+        },
+        body: JSON.stringify({title, description, tag})
+      });
+
+      // const json = response.json();
+    
+      for(let index = 0; index < notes.length; index++)
+      {
+        const element = notes[index];
+        if(element.id === id)
+        {
+          element.title = title;
+          element.description = description;
+          element.tag = tag;
+        }
+      }
       
     }
 
     return(
-        <NoteContext.Provider value = {{notes, addNote, deleteNote, editNote}}> 
+        <NoteContext.Provider value = {{notes, addNote, deleteNote, editNote, getNotes}}> 
             {props.children} 
         </NoteContext.Provider>
     )
