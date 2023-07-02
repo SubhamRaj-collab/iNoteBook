@@ -16,10 +16,10 @@ router.post('/createUser', [
 ], async (req, res) => {
 
     //If there are errors, return bad request and the errors.
-    
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
 
     try
@@ -30,7 +30,7 @@ router.post('/createUser', [
 
         if(user)
         {
-            return res.status(400).json({error: "Sorry a user with this email already exists"})
+            return res.status(400).json({success, error: "Sorry a user with this email already exists"})
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -48,9 +48,10 @@ router.post('/createUser', [
             }
         }
 
+        success = true;
         const authToken = jwt.sign(data, JWT_SECRET);
 
-        res.json({authToken});
+        res.json({success, authToken});
         // res.json(user)
     }
     catch(error)
