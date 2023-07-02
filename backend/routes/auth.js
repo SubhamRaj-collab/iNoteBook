@@ -72,24 +72,28 @@ router.post('/login', [
 
     //If there are errors, return bad request and the errors.
     
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
 
     const {email, password} = req.body;
 
     try {
         let user = await User.findOne({email});
+        
         if(!user)
         {
-            return res.status(400).json({error: "Please try to login with correct Credentials."});
+            success = false;
+            return res.status(400).json({success, error: "Please try to login with correct Credentials."});
         }
 
         const passwordCompare = await bcrypt.compare(password, user.password);    //input is password and hash of password.
         if(!passwordCompare)
         {
-            return res.status(400).json({error: "Please try to login with correct Credentials."});
+            success = false;
+            return res.status(400).json({success, error: "Please try to login with correct Credentials."});
         }
 
         const data = {
@@ -99,7 +103,8 @@ router.post('/login', [
         }
 
         const authToken = jwt.sign(data, JWT_SECRET);
-        res.json({authToken});
+        success = true;
+        res.json({ success, authToken });
 
     } catch(error){
         console.error(error.message);
