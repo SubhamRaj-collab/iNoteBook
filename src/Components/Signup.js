@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const Signup = (props) => {
 
   const [credentials, setCredentials] = useState({name: "", email: "", password: "", cpassword: ""});
   let navigate = useNavigate();
@@ -28,9 +28,10 @@ const Signup = () => {
       //redirect
       localStorage.setItem('token', json.authtoken)
       navigate('/home');
+      props.showAlert("Successfully Account created", "success");
     }
     else{
-      alert('Something is Wrong!!');
+      props.showAlert("Invalid Details", "danger");
     }
 
   }
@@ -40,7 +41,7 @@ const Signup = () => {
   }
 
   return (
-    <div className='container'>
+    <div className='container my-4'>
       <form onSubmit={handleSubmit}>
       <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>
@@ -49,7 +50,7 @@ const Signup = () => {
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email address</label>
           <input type="email" className="form-control" id="email" name='email' onChange={onChange} aria-describedby="emailHelp"/>
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">Password</label>
@@ -59,7 +60,7 @@ const Signup = () => {
           <label htmlFor="cpassword" className="form-label">Confirm Password</label>
           <input type="password" className="form-control" id="cpassword" name="cpassword" minLength={5} required onChange={onChange}/>
         </div>
-        <button type="submit" className="btn btn-primary">Sign Up</button>
+        <button type="submit" style={{marginTop:"1.6rem"}} className="btn btn-primary">Sign Up</button>
       </form>
     </div>
   )

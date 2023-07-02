@@ -32,6 +32,7 @@ const Notes = (props) => {
     console.log("Updating the note....", note)
     editNote(note.id, note.etitle, note.edescription, note.etag);
     refClose.current.click();
+    props.showAlert("Note Updated successfully", "success");
     // e.preventDefault();
       // addNote(note.etitle, note.edescription, note.etag);
   }
@@ -43,7 +44,7 @@ const Notes = (props) => {
 
   return (
     <>
-      <AddNote/>
+      <AddNote showAlert={props.showAlert}/>
 
       <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Launch demo modal
@@ -90,7 +91,7 @@ const Notes = (props) => {
             { notes.length === 0 && 'No notes to display' }
           </div>
           {notes.map((note) => {
-              return <NoteItem key={note._id} updateNote={updateNote} note={note}/>;
+              return <NoteItem key={note._id} updateNote={updateNote} note={note} showAlert={props.showAlert}/>;
           })}
       </div>
     </>
