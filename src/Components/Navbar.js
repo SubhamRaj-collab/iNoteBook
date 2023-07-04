@@ -1,9 +1,20 @@
-import React from 'react'
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from 'react'
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import noteContext from '../Context/notes/noteContext';
 
-const Navbar = () => {
+const Navbar = (props) => {
 
     let location = useLocation();
+    let navigate = useNavigate();
+    //We are using useNavigate instead of useHistory()
+    const context = useContext(noteContext);
+
+    const handleLogout = () => {
+        context.setNotes([]);
+        localStorage.removeItem('token');
+        props.showAlert("Logged Out Successfully", "success");
+        navigate('/login');
+    }
 
     // useEffect(() => {
     //     console.log(location)
@@ -26,10 +37,10 @@ const Navbar = () => {
                     <Link className={`nav-link ${location.pathname === '/about'?"active":""}`} to="/about">About</Link>
                     </li>
                 </ul>
-                <form className="d-flex" role="search">
+                {!localStorage.getItem('token')?<form className="d-flex" role="search">
                     <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
                     <Link className="btn btn-primary mx-1" to="/signup" role="button">Sign Up</Link>
-                </form>
+                </form>: <button onClick={handleLogout} type="button" className="btn btn-primary">Logout</button>}
                 </div>
             </div>
         </nav>

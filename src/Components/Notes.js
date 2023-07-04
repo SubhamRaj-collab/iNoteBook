@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState ,useRef } from 'react';
 import noteContext from '../Context/notes/noteContext';
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom';
 
 const Notes = (props) => {
 
   const context = useContext(noteContext);
   const {notes, getNotes, editNote} = context;
+  const navigate = useNavigate();
 
   const [note, setNote] = useState({id: "", etitle:"", edescription:"", etag:"default"})
   
@@ -15,8 +17,14 @@ const Notes = (props) => {
 
   useEffect(() => {
 
-    getNotes()
-    
+    if(localStorage.getItem('token'))
+    {
+      getNotes();
+    }
+    else{
+      props.showAlert("Please login to use iNotebook", "danger")
+      navigate('/login');
+    }
     // eslint-disable-next-line
   }, [])
 
